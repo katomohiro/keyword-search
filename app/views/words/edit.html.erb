@@ -1,0 +1,26 @@
+<h1>検索結果</h1>
+
+<%= link_to "TOP", root_path %>
+
+<h2><%= @word.keyword %></h2>
+
+<div class = "results">
+    
+    <% YAML.load(@word.results).each do |word|%>
+    <p><%= word %></p>
+    <% end %>
+    
+</div>
+
+<%= form_for (@word) do |f| %>
+
+<div class="saved_words">
+    <%= f.label :saved_words, "保存したい単語を選択してください" %>
+    <%= f.text_area :saved_words, :size => "100x100"%>
+</div>
+
+<div class="actions">
+    <%= f.submit "保存" %>
+</div>
+
+<% end %>

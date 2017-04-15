@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  keyword: MyString
+  results: MyText
+  saved_words: MyText
+
+two:
+  keyword: MyString
+  results: MyText
+  saved_words: MyText

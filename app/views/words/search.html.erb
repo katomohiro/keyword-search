@@ -1,0 +1,13 @@
+<h1>検索ワード入力</h1>
+
+<%= render 'form' %>
+
+<% if false %>
+<%= link_to "crawl1", crawls_crawl1_path %>
+<%= link_to "crawl2", crawls_crawl2_path %>
+<%= link_to "crawl3", crawls_crawl3_path %>
+<% end %>
+
+<% @words.each do |word| %>
+<p><%= link_to word.keyword, edit_word_path(word.id) %></p>
+<% end %>
