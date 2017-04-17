@@ -6,35 +6,29 @@ class WordsController < ApplicationController
   end
   
   def create
-    keyword = params[:word][:keyword]
-    if @word = Word.find_by(keyword: keyword)
-      redirect_to "/words/#{@word.id}/edit"
-    else
-      search_urls = google_scraping(keyword)
-      @url = Url.create(keyword: keyword, url: search_urls)
-      # render :text => '検索中です、30秒程お待ちください'
-      redirect_to "/words/#{@url.id}/searching"
+    keywords = params[:word][:keyword].split(",")
+    keywords.each do |word|
+      next if @word = Word.find_by(keyword: word)
+        search_urls = google_scraping(word)
+        elements = ["a"]
+        search_urls.each do |search_url|
+          next if encode_gensenweb(search_url).nil?
+          elements.push(encode_gensenweb(search_url)[0..30])
+        end
+        elements.uniq!
+        @word = Word.create(keyword: word, results: elements, saved_words:"")
     end
-    
-  end
-
-  def searching
-    url_data = Url.find(params[:id])
-    search_urls= YAML.load(url_data.url)
-    keyword = url_data.keyword
-    
-    elements = []
-    search_urls.each do |search_url|
-      next if encode_gensenweb(search_url).nil?
-      elements += encode_gensenweb(search_url)[0..30]
-    end
-    elements.uniq!
-    @word = Word.create(keyword: keyword, results: elements, saved_words:"")
-    redirect_to "/words/#{@word.id}/edit"
+    redirect_to root_path
   end
 
   def edit
     @word = Word.find(params[:id])
+  end
+  
+  def update
+    @word = Word.find(params[:id])
+    @word.update(saved_words: params[:word][:saved_words])
+    redirect_to "/words/#{@word.id}/edit"
   end
   
   private
@@ -52,8 +46,6 @@ class WordsController < ApplicationController
         url = query[0][1]
       end
     end 
-    
-    
     
     def gensenweb(search_url)
       agent = Mechanize.new

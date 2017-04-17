@@ -1,7 +1,17 @@
-<h1>検索ワード入力</h1>
+<div class="description">
+    <h2>使い方</h2>
+        <p>キーワードを半角のカンマ(,)で区切って入力してください</p>
+        <p>検索は1min/word程度で終わります</p>
+        <p>検索終了後、エラーページが表示されますが、最初のページに戻ると検索結果を確認できます</p>
+</div>
+<div class="search">
+    <h2>入力</h2>
+    <%= render 'form' %>
+</div>
 
-<%= render 'form' %>
-
-<% @words.each do |word| %>
-<p><%= link_to word.keyword, edit_word_path(word.id) %></p>
-<% end %>
+<div class="index">
+    <h2>検索結果/検索履歴</h2>
+    <% @words.each do |word| %>
+        <p><%= link_to word.keyword, edit_word_path(word.id) %></p>
+    <% end %>
+</div>
