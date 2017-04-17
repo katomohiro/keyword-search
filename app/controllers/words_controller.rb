@@ -1,5 +1,9 @@
 class WordsController < ApplicationController
   
+  require 'open-uri'
+  require 'mechanize'
+  require 'nokogiri'
+  
   def search
     @word = Word.new
     @words = Word.all
@@ -10,7 +14,7 @@ class WordsController < ApplicationController
     keywords.each do |word|
       next if @word = Word.find_by(keyword: word)
         search_urls = google_scraping(word)
-        elements = ["a"]
+        elements = []
         search_urls.each do |search_url|
           next if encode_gensenweb(search_url).nil?
           elements.push(encode_gensenweb(search_url)[0..30])
