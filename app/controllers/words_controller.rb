@@ -19,7 +19,7 @@ class WordsController < ApplicationController
           next if encode_gensenweb(search_url).nil?
           elements.push(encode_gensenweb(search_url)[0..30])
         end
-        elements.uniq!
+        elements.flatten!.uniq!
         @word = Word.create(keyword: word, results: elements, saved_words:"")
     end
     redirect_to root_path

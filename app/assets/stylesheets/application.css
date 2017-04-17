@@ -26,6 +26,8 @@ p {
 }
 
 .saved_words {
+    margin-left: 20px;
     float: left;
-    width: 50%;
+    width: 30%;
+    height: 580px;
 }

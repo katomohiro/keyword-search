@@ -11,16 +11,15 @@
     <% end %>
     
 </div>
-
-<%= form_for (@word) do |f| %>
-
 <div class="saved_words">
+
+    <%= form_for (@word) do |f| %>
     <%= f.label :saved_words, "単語を保存できます" %>
     <%= f.text_area :saved_words, :size => "30x30"%>
-</div>
 
-<div class="actions">
-    <%= f.submit "保存" %>
+    <div class="actions">
+        <%= f.submit "保存" %>
+    </div>
+    <% end %>
+    
 </div>
-
-<% end %>
