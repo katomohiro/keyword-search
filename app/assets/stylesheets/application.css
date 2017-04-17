@@ -19,8 +19,10 @@ p {
 }
 
 .results {
+    overflow: scroll;   /* スクロール表示 */ 
     float: left;
     width: 30%;
+    height: 580px;
 }
 
 .saved_words {
