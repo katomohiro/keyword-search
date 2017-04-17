@@ -63,8 +63,8 @@ class CrawlsController < ApplicationController
         @elements = gensenweb(search_url).body.encode("UTF-8", "Shift_JIS").split("\n")
       rescue Encoding::InvalidByteSequenceError
         p $!
-        puts $!.error_bytes.dump          
-        puts $!.readagain_bytes.dump      
+        puts $!.error_bytes.dump unless $!.error_bytes.empty?
+        puts $!.readagain_bytes.dump unless $!.readagain_bytes.empty?
       end
     end
 

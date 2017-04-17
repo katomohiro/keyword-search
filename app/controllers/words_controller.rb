@@ -13,10 +13,10 @@ class WordsController < ApplicationController
       elements = []
       search_urls.each do |search_url|
         next if encode_gensenweb(search_url).nil?
-        elements += encode_gensenweb(search_url)[0..10]
+        elements += encode_gensenweb(search_url)[0..30]
       end
       elements.uniq!
-      @word = Word.create(keyword: keyword, results: elements, saved_words: elements)
+      @word = Word.create(keyword: keyword, results: elements, saved_words:"")
     end
     redirect_to "/words/#{@word.id}/edit"
   end
@@ -63,8 +63,8 @@ class WordsController < ApplicationController
         gensenweb(search_url).body.encode("UTF-8", "Shift_JIS").split("\n")
       rescue Encoding::InvalidByteSequenceError
         p $!
-        puts $!.error_bytes.dump
-        puts $!.readagain_bytes.dump
+        puts $!.error_bytes.dump unless $!.error_bytes. nil?
+        puts $!.readagain_bytes.dump unless $!.readagain_bytes.nil?
       end
     end
     
