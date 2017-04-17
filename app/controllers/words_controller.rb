@@ -8,20 +8,29 @@ class WordsController < ApplicationController
   def create
     keyword = params[:word][:keyword]
     if @word = Word.find_by(keyword: keyword)
+      redirect_to "/words/#{@word.id}/edit"
     else
       search_urls = google_scraping(keyword)
-      elements = []
-      search_urls.each do |search_url|
-        next if encode_gensenweb(search_url).nil?
-        elements += encode_gensenweb(search_url)[0..30]
-      end
-      elements.uniq!
-      @word = Word.create(keyword: keyword, results: elements, saved_words:"")
+      @url = Url.create(keyword: keyword, url: search_urls)
+      # render :text => '検索中です、30秒程お待ちください'
+      redirect_to "/words/#{@url.id}/searching"
     end
-    redirect_to "/words/#{@word.id}/edit"
+    
   end
 
-  def update
+  def searching
+    url_data = Url.find(params[:id])
+    search_urls= YAML.load(url_data.url)
+    keyword = url_data.keyword
+    
+    elements = []
+    search_urls.each do |search_url|
+      next if encode_gensenweb(search_url).nil?
+      elements += encode_gensenweb(search_url)[0..30]
+    end
+    elements.uniq!
+    @word = Word.create(keyword: keyword, results: elements, saved_words:"")
+    redirect_to "/words/#{@word.id}/edit"
   end
 
   def edit

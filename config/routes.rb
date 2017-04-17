@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'crawls/crawl1'
   get 'crawls/crawl2'
   get 'crawls/crawl3'
+  get 'words/:id/searching' => 'words#searching'
   resources :words, only:[:create, :update, :edit]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
